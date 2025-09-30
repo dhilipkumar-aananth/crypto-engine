@@ -18,6 +18,8 @@ package com.crypto.dto;
 import java.io.Serializable;
 import java.util.List;
 
+import com.crypto.annotations.Decrypt;
+import com.crypto.annotations.Encrypt;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import lombok.Data;
@@ -29,7 +31,11 @@ import lombok.Data;
 @Data
 @JsonInclude(value = Include.NON_NULL)
 public class BaseDTO implements Serializable {
+
+    @Encrypt
     private String statusCode;
+
+    @Decrypt
     private String message;
     private String status;
     private String executionTime;

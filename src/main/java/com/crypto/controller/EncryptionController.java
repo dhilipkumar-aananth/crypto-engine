@@ -1,58 +1,39 @@
 package com.crypto.controller;
 
 import com.crypto.dto.BaseDTO;
-import com.crypto.encryption.EncryptionUtil;
-import org.springframework.http.HttpStatus;
+import com.crypto.service.EncryptionService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/encryption")
-@Slf4j
 public class EncryptionController {
 
-	private final EncryptionUtil encryptionUtil;
+    private final EncryptionService encryptionService;
 
-	public EncryptionController(EncryptionUtil encryptionUtil) {
-		this.encryptionUtil = encryptionUtil;
-	}
+    public EncryptionController(EncryptionService encryptionService) {
+        this.encryptionService = encryptionService;
+    }
 
-	@PostMapping("/encrypt")
-	public ResponseEntity<String> encrypt(@RequestBody String obj) {
-		try {
-			log.info("Received encryption request. Payload size: {} bytes", obj != null ? obj.length() : 0);
-			String encryptedString = encryptionUtil.encryptObject(obj);
-			log.debug("Encryption successful. Encrypted output length: {}", encryptedString.length());
-			return ResponseEntity.ok(encryptedString);
-		} catch (Exception e) {
-			log.error("Encryption failed. Input: [{}], Error: {}", obj, e.getMessage(), e);
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body("Encryption failed due to internal error. Please contact support.");
-		}
-	}
+    @PostMapping("/encrypt")
+    public ResponseEntity<String> encryptWithAES(@RequestBody String obj) {
+        return encryptionService.encrypt(obj, "AES");
+    }
 
-	@PostMapping("/decrypt")
-	public ResponseEntity<BaseDTO> decrypt(@RequestBody String encryptedString) {
-		try {
-			log.info("Received decryption request. Encrypted input length: {} characters",
-					encryptedString != null ? encryptedString.length() : 0);
-            assert encryptedString != null;
-            String sanitizedBase64 = encryptedString.trim().replaceAll("\\s+", "");
-			log.debug("Sanitized Base64 input: {}", sanitizedBase64);
+    @PostMapping("/encrypt-gcm")
+    public ResponseEntity<String> encryptWithGcm(@RequestBody String obj) {
+        return encryptionService.encrypt(obj, "AES-GCM");
+    }
 
-			BaseDTO decryptedObject = encryptionUtil.decryptString(sanitizedBase64);
-			log.debug("Decryption successful. Output object: {}", decryptedObject);
+    @PostMapping("/decrypt")
+    public ResponseEntity<BaseDTO> decryptWithAES(@RequestBody String encryptedString) {
+        return encryptionService.decrypt(encryptedString, "AES");
+    }
 
-			return ResponseEntity.ok(decryptedObject);
-		} catch (Exception e) {
-			log.error("Decryption failed. Input: [{}], Error: {}", encryptedString, e.getMessage(), e);
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-		}
-	}
-
+    @PostMapping("/decrypt-gcm")
+    public ResponseEntity<BaseDTO> decryptWithGCM(@RequestBody String encryptedString) {
+        return encryptionService.decrypt(encryptedString, "AES-GCM");
+    }
 }

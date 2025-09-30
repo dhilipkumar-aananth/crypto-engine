@@ -2,16 +2,11 @@ package com.crypto.config;
 
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpServletResponseWrapper;
-import java.io.CharArrayWriter;
-import java.io.PrintWriter;
 import java.io.IOException;
 
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.WriteListener;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpServletResponseWrapper;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 
 public class BufferedResponseWrapper extends HttpServletResponseWrapper {
 
@@ -28,9 +23,7 @@ public class BufferedResponseWrapper extends HttpServletResponseWrapper {
         }
 
         @Override
-        public void setWriteListener(WriteListener listener) {
-            // Not needed
-        }
+        public void setWriteListener(WriteListener listener) {}
     };
 
     public BufferedResponseWrapper(HttpServletResponse response) {
