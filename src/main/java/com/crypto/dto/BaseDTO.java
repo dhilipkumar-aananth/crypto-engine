@@ -35,4 +35,13 @@ public class BaseDTO implements Serializable {
     private String executionTime;
     private Object responseContent;
     private List<?> responseContents;
+
+    public BaseDTO(String statusCode, String message, String status) {
+        this.statusCode = statusCode;
+        this.message = message;
+        this.status = status;
+    }
+
+    public BaseDTO() {
+    }
 }

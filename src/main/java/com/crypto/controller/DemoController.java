@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 public class DemoController {
 
     @PostMapping("/save")
-    public String save(@RequestBody BaseDTO dto) {
-        return "Decrypted object received: name=" + dto.getMessage() + ", age=" + dto.getStatus();
+    public BaseDTO save(@RequestBody BaseDTO dto) {
+        return new BaseDTO("Status Code","Message","Status");
     }
 }
