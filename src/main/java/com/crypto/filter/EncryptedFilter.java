@@ -19,7 +19,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
 @Component
-public class DecryptionFilter implements Filter {
+public class EncryptedFilter implements Filter {
 
     @Value("${security.encryption.request.enabled}")
     private boolean requestEncryptionEnabled;

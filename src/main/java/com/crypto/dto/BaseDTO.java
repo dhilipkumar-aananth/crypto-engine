@@ -31,11 +31,7 @@ import lombok.Data;
 @Data
 @JsonInclude(value = Include.NON_NULL)
 public class BaseDTO implements Serializable {
-
-    @Encrypt
     private String statusCode;
-
-    @Decrypt
     private String message;
     private String status;
     private String executionTime;

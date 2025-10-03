@@ -12,6 +12,7 @@ public class DemoController {
 
     @PostMapping("/save")
     public BaseDTO save(@RequestBody BaseDTO dto) {
-        return new BaseDTO("Status Code","Message","Status");
+        System.out.println("save " + dto);
+        return dto;
     }
 }
